@@ -1,0 +1,8 @@
+# Secretos y variables de entorno
+.env
+.env.local
+*.env
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
