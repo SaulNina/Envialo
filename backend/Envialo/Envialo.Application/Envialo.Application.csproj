@@ -15,8 +15,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Abstractions\" />
-      <Folder Include="Ports\" />
       <Folder Include="UseCases\" />
     </ItemGroup>
 
