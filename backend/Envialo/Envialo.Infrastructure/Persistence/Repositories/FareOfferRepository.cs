@@ -10,6 +10,6 @@ public sealed class FareOfferRepository : BaseRepository<FareOffer>, IFareOfferR
 
     public async Task<IReadOnlyList<FareOffer>> GetByShipmentIdAsync(Guid shipmentId, CancellationToken ct = default)
         => await Set.Where(o => o.ShipmentId == shipmentId)
-            .OrderBy(o => o.Amount)
+            .OrderBy(o => o.OfferedPrice)
             .ToListAsync(ct);
 }

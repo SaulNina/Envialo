@@ -27,9 +27,12 @@ public sealed class CreateShipmentUseCase
             DestinationAddress = dto.DestinationAddress,
             CargoDescription   = dto.CargoDescription,
             WeightKg           = dto.WeightKg,
-            SuggestedFare      = dto.SuggestedFare,
-            Status             = "pending",
-            CreatedAt          = DateTime.UtcNow
+            SuggestedPrice     = dto.SuggestedFare, // ¡Corregido! Mapea a SuggestedPrice
+            Currency           = "PEN",             // ¡Obligatorio por tu DB!
+            Status             = "OPEN",            // ¡Corregido! Debe coincidir con el CHECK constraint
+            CreatedAt          = DateTime.UtcNow,
+            UpdatedAt          = DateTime.UtcNow,
+            ExpiresAt          = DateTime.UtcNow.AddHours(2) // La BD exige expires_at
         };
 
         await _shipments.AddAsync(shipment, ct);
@@ -40,6 +43,6 @@ public sealed class CreateShipmentUseCase
 
     private static ShipmentResponseDto ToDto(ShipmentRequest s) => new(
         s.Id, s.OriginAddress, s.DestinationAddress,
-        s.CargoDescription, s.WeightKg, s.SuggestedFare,
+        s.CargoDescription, s.WeightKg, s.SuggestedPrice ?? 0m, // Corregido aquí también
         s.Status, s.CreatedAt);
 }

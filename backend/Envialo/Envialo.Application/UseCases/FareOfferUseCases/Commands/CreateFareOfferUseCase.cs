@@ -9,7 +9,7 @@ public sealed class CreateFareOfferUseCase
 {
     private readonly IFareOfferRepository  _offers;
     private readonly IShipmentRepository   _shipments;
-    private readonly IUnitOfWork            _uow;
+    private readonly IUnitOfWork           _uow;
 
     public CreateFareOfferUseCase(
         IFareOfferRepository offers,
@@ -27,17 +27,19 @@ public sealed class CreateFareOfferUseCase
         var shipment = await _shipments.GetByIdAsync(shipmentId, ct)
                        ?? throw new ShipmentNotFoundException(shipmentId);
 
-        if (shipment.Status != "pending")
-            throw new DomainException("Solo se pueden hacer ofertas en envíos pendientes.");
+        if (shipment.Status != "OPEN") // Corregido de "pending" a "OPEN"
+            throw new DomainException("Solo se pueden hacer ofertas en envíos abiertos.");
 
         var offer = new FareOffer
         {
-            Id          = Guid.NewGuid(),
-            ShipmentId  = shipmentId,
-            DriverId    = driverId,
-            Amount      = amount,
-            Status      = "pending",
-            CreatedAt   = DateTime.UtcNow
+            Id           = Guid.NewGuid(),
+            ShipmentId   = shipmentId,
+            DriverId     = driverId,
+            OfferedPrice = amount,      // ¡Corregido! Ya no es "Amount"
+            Currency     = "PEN",       // ¡Obligatorio!
+            Status       = "PENDING",   // ¡En mayúsculas según el CHECK de tu SQL!
+            CreatedAt    = DateTime.UtcNow,
+            UpdatedAt    = DateTime.UtcNow
         };
 
         await _offers.AddAsync(offer, ct);

@@ -14,7 +14,7 @@ public sealed class GetPendingShipmentsUseCase
         var list = await _shipments.GetPendingAsync(ct);
         return list.Select(s => new ShipmentResponseDto(
             s.Id, s.OriginAddress, s.DestinationAddress,
-            s.CargoDescription, s.WeightKg, s.SuggestedFare,
+            s.CargoDescription, s.WeightKg, s.SuggestedPrice ?? 0m,
             s.Status, s.CreatedAt)).ToList();
     }
 }

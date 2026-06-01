@@ -8,16 +8,16 @@ namespace Envialo.Application.UseCases.UserUseCases.Commands;
 
 public sealed class LoginUseCase
 {
-    private readonly IUserRepository      _users;
+    private readonly IUserRepository        _users;
     private readonly IPasswordHasherService _hasher;
-    private readonly IJwtTokenService     _jwt;
-    private readonly IUnitOfWork          _uow;
+    private readonly IJwtTokenService       _jwt;
+    private readonly IUnitOfWork            _uow;
 
     public LoginUseCase(
-        IUserRepository      users,
+        IUserRepository        users,
         IPasswordHasherService hasher,
-        IJwtTokenService     jwt,
-        IUnitOfWork          uow)
+        IJwtTokenService       jwt,
+        IUnitOfWork            uow)
     {
         _users  = users;
         _hasher = hasher;
@@ -30,13 +30,12 @@ public sealed class LoginUseCase
         var user = await _users.GetByEmailAsync(dto.Email.ToLower(), ct)
                    ?? throw new UnauthorizedDomainException("Credenciales inválidas.");
 
-        if (!user.IsActive)
-            throw new UnauthorizedDomainException("La cuenta está desactivada.");
+        // ¡Corregido! Ya no verificamos un booleano, evaluamos el CHECK constraint de la base de datos
+        if (user.Status is "SUSPENDED" or "DELETED" or "PENDING_VERIFICATION")
+            throw new UnauthorizedDomainException($"La cuenta no está activa. Estado actual: {user.Status}");
 
         if (!_hasher.Verify(dto.Password, user.PasswordHash!))
             throw new UnauthorizedDomainException("Credenciales inválidas.");
-
-        await _uow.SaveChangesAsync(ct); // para persistir refresh token si se agrega
 
         return new AuthResponseDto(
             user.Id,
@@ -44,7 +43,7 @@ public sealed class LoginUseCase
             user.Email,
             user.Role,
             _jwt.GenerateAccessToken(user),
-            _jwt.GenerateRefreshToken(),
+            _jwt.GenerateRefreshToken(), // Aún debemos crear el repositorio para guardar este token
             DateTime.UtcNow.AddMinutes(60)
         );
     }

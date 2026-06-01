@@ -38,9 +38,9 @@ public sealed class CreateRatingUseCase
         {
             Id        = Guid.NewGuid(),
             TripId    = tripId,
-            RaterId   = raterId,
-            RatedId   = ratedId,
-            Score     = score,
+            RatedByUserId   = raterId,
+            RatedUserId = ratedId,
+            Score     = (short)score,
             Comment   = comment,
             CreatedAt = DateTime.UtcNow
         };

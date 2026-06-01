@@ -38,7 +38,7 @@ public sealed class RegisterUserUseCase
             PasswordHash = _hasher.Hash(dto.Password),
             Phone        = dto.Phone,
             Role         = dto.Role,
-            IsActive     = true,
+            Status     = "ACTIVE",
             CreatedAt    = DateTime.UtcNow
         };
 

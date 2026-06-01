@@ -17,7 +17,7 @@ public sealed class GetShipmentByIdUseCase
 
         return new ShipmentResponseDto(
             s.Id, s.OriginAddress, s.DestinationAddress,
-            s.CargoDescription, s.WeightKg, s.SuggestedFare,
+            s.CargoDescription, s.WeightKg, s.SuggestedPrice ?? 0m,
             s.Status, s.CreatedAt);
     }
 }
