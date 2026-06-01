@@ -4,7 +4,6 @@ using Envialo.Domain.Exceptions;
 
 namespace Envialo.Application.UseCases.ShipmentUseCases.Queries;
 
-// Query pura: solo lectura, sin IUnitOfWork
 public sealed class GetShipmentByIdUseCase
 {
     private readonly IShipmentRepository _shipments;

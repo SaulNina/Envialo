@@ -6,8 +6,6 @@ using Envialo.Domain.Exceptions;
 
 namespace Envialo.Application.UseCases.UserUseCases.Commands;
 
-// SRP: solo registrar usuarios
-// DIP: depende de IUserRepository, no de UserRepository
 public sealed class RegisterUserUseCase
 {
     private readonly IUserRepository      _users;
