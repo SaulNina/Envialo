@@ -10,7 +10,7 @@ namespace Envialo.API.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-[Authorize] // 🔒 TODAS las rutas aquí requieren estar logueado con JWT
+[Authorize] //TODAS las rutas aquí requieren estar logueado con JWT
 public class ShipmentsController : ControllerBase
 {
     private readonly CreateShipmentUseCase      _createShipmentUseCase;
@@ -27,10 +27,10 @@ public class ShipmentsController : ControllerBase
         _getShipmentByIdUseCase     = getShipmentByIdUseCase;
     }
 
-    // Helper para extraer el ID del usuario directamente del token JWT
+    
     private Guid GetCurrentUserId()
     {
-        // Buscamos primero en el mapeo por defecto de .NET, y si no, en el "sub" original
+
         var subClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value 
                        ?? User.FindFirst(System.IdentityModel.Tokens.Jwt.JwtRegisteredClaimNames.Sub)?.Value;
         
@@ -43,7 +43,7 @@ public class ShipmentsController : ControllerBase
     }
 
     [HttpPost]
-    [Authorize(Roles = "CLIENT")] // 🔒 Solo el cliente puede crear fletes
+    [Authorize(Roles = "CLIENT")] //Solo el cliente puede crear fletes
     [ProducesResponseType(typeof(ShipmentResponseDto), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> Create([FromBody] CreateShipmentDto dto, CancellationToken ct)
@@ -62,7 +62,7 @@ public class ShipmentsController : ControllerBase
     }
 
     [HttpGet("pending")]
-    [Authorize(Roles = "DRIVER")] // 🔒 Solo el conductor ve el feed de pendientes
+    [Authorize(Roles = "DRIVER")] //Solo el conductor ve el feed de pendientes
     [ProducesResponseType(typeof(IReadOnlyList<ShipmentResponseDto>), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetPending(CancellationToken ct)
     {
