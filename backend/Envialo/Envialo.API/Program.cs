@@ -29,6 +29,9 @@ builder.Services.AddSingleton<IJwtTokenService, JwtTokenService>();
 builder.Services.AddScoped<Envialo.Application.UseCases.UserUseCases.Commands.RegisterUserUseCase>();
 builder.Services.AddScoped<Envialo.Application.UseCases.UserUseCases.Commands.LoginUseCase>();
 builder.Services.AddScoped<Envialo.Application.UseCases.ShipmentUseCases.Commands.CreateShipmentUseCase>();
+builder.Services.AddScoped<Envialo.Application.UseCases.ShipmentUseCases.Queries.GetPendingShipmentsUseCase>();
+builder.Services.AddScoped<Envialo.Application.UseCases.ShipmentUseCases.Queries.GetShipmentByIdUseCase>();
+
 // (Agrega aquí el resto de tus UseCases conforme vayas creando tus controladores)
 
 // 4. Configurar Autenticación JWT
@@ -51,7 +54,33 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 // 5. Configurar Controladores y Swagger
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+    {
+        Name = "Authorization",
+        Type = Microsoft.OpenApi.Models.SecuritySchemeType.Http,
+        Scheme = "Bearer",
+        BearerFormat = "JWT",
+        In = Microsoft.OpenApi.Models.ParameterLocation.Header,
+        Description = "Ingresa tu token JWT aquí (NO es necesario escribir 'Bearer ' antes)."
+    });
+
+    c.AddSecurityRequirement(new Microsoft.OpenApi.Models.OpenApiSecurityRequirement
+    {
+        {
+            new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+            {
+                Reference = new Microsoft.OpenApi.Models.OpenApiReference
+                {
+                    Type = Microsoft.OpenApi.Models.ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            Array.Empty<string>()
+        }
+    });
+});
 
 var app = builder.Build();
 

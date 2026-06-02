@@ -28,16 +28,13 @@ public class AuthController : ControllerBase
         {
             var userId = await _registerUserUseCase.ExecuteAsync(dto, ct);
             
-            // Según tu prompt, el registro debería devolver el AuthResponseDto. 
-            // Como el UseCase actualmente devuelve solo el Guid, para esta prueba inicial devolveremos 201 con el ID.
-            // Más adelante ajustaremos el UseCase para que haga autologin si así lo deseas.
             return StatusCode(StatusCodes.Status201Created, new { Id = userId, Message = "Usuario registrado." });
         }
         catch (DomainException ex)
         {
             return BadRequest(new { error = ex.Message });
         }
-        catch (Exception ex) // Para capturar conflictos como email duplicado (Unique Constraint)
+        catch (Exception ex)
         {
             return Conflict(new { error = "El correo o teléfono ya se encuentra registrado." });
         }

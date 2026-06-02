@@ -9,7 +9,7 @@ public sealed class ShipmentRepository : BaseRepository<ShipmentRequest>, IShipm
     public ShipmentRepository(AppDbContext db) : base(db) { }
 
     public async Task<IReadOnlyList<ShipmentRequest>> GetPendingAsync(CancellationToken ct = default)
-        => await Set.Where(s => s.Status == "pending")
+        => await Set.Where(s => s.Status == "OPEN")
             .OrderByDescending(s => s.CreatedAt)
             .ToListAsync(ct);
 
