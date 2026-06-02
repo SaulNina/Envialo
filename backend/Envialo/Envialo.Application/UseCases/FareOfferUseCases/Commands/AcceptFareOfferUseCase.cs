@@ -1,5 +1,6 @@
 using Envialo.Application.Abstractions;
 using Envialo.Application.Ports;
+using Envialo.Domain.Entities;
 using Envialo.Domain.Exceptions;
 
 namespace Envialo.Application.UseCases.FareOfferUseCases.Commands;
@@ -8,15 +9,18 @@ public sealed class AcceptFareOfferUseCase
 {
     private readonly IFareOfferRepository _offers;
     private readonly IShipmentRepository  _shipments;
+    private readonly ITripRepository _trips;
     private readonly IUnitOfWork          _uow;
 
     public AcceptFareOfferUseCase(
         IFareOfferRepository offers,
         IShipmentRepository  shipments,
+        ITripRepository  trips,
         IUnitOfWork          uow)
     {
         _offers    = offers;
         _shipments = shipments;
+        _trips     = trips;
         _uow       = uow;
     }
 
@@ -34,8 +38,20 @@ public sealed class AcceptFareOfferUseCase
         offer.Status    = "ACCEPTED";
         shipment.Status = "ACCEPTED";
 
+        var trip = new Trip
+        {
+            Id = Guid.NewGuid(),
+            ShipmentId = shipment.Id,
+            DriverId = offer.DriverId,
+            AcceptedOfferId = offer.Id,
+            FinalPrice = offer.OfferedPrice,
+            Status = "CONFIRMED"
+        };
+
         await _offers.UpdateAsync(offer, ct);
         await _shipments.UpdateAsync(shipment, ct);
+        await _trips.AddAsync(trip, ct);
+        
         await _uow.SaveChangesAsync(ct);
     }
 }

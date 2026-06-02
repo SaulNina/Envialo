@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Envialo.API.Controllers;
 
 [ApiController]
-[Route("api/fare-offers")] // Ojo: Respetando el guion medio de tu diseño REST
+[Route("api/fare-offers")] 
 [Authorize]
 public class FareOffersController : ControllerBase
 {
@@ -39,7 +39,7 @@ public class FareOffersController : ControllerBase
     }
 
     [HttpPost]
-    [Authorize(Roles = "DRIVER")] // 🔒 Solo conductores ofertan
+    [Authorize(Roles = "DRIVER")] // Solo conductores ofertan
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> Create([FromBody] CreateFareOfferDto dto, CancellationToken ct)
@@ -48,7 +48,6 @@ public class FareOffersController : ControllerBase
         {
             var driverId = GetCurrentUserId();
             
-            // Pasamos los parámetros individualmente, tal como lo exige tu UseCase actual
             await _createFareOfferUseCase.ExecuteAsync(dto.ShipmentId, driverId, dto.OfferedPrice, ct);
             
             return StatusCode(StatusCodes.Status201Created, new { Message = "Oferta enviada con éxito." });
@@ -63,13 +62,12 @@ public class FareOffersController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<IActionResult> GetByShipment(Guid shipmentId, CancellationToken ct)
     {
-        // Esto lo usará la app móvil para pintar la lista de contraofertas en la pantalla del cliente
         var offers = await _getOffersByShipmentUseCase.ExecuteAsync(shipmentId, ct);
         return Ok(offers);
     }
 
     [HttpPut("{id:guid}/accept")]
-    [Authorize(Roles = "CLIENT")] // 🔒 Solo el cliente dueño de la carga puede aceptar
+    [Authorize(Roles = "CLIENT")] //Solo el cliente dueño de la carga puede aceptar
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status403Forbidden)]
@@ -79,7 +77,6 @@ public class FareOffersController : ControllerBase
         {
             var clientId = GetCurrentUserId();
             
-            // Quitamos el 'var tripResponse =' porque tu UseCase devuelve Task (vacío)
             await _acceptFareOfferUseCase.ExecuteAsync(id, clientId, ct);
             
             return Ok(new { Message = "Oferta aceptada. El viaje ha sido creado." });
