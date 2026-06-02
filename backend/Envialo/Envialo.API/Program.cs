@@ -31,6 +31,9 @@ builder.Services.AddScoped<Envialo.Application.UseCases.UserUseCases.Commands.Lo
 builder.Services.AddScoped<Envialo.Application.UseCases.ShipmentUseCases.Commands.CreateShipmentUseCase>();
 builder.Services.AddScoped<Envialo.Application.UseCases.ShipmentUseCases.Queries.GetPendingShipmentsUseCase>();
 builder.Services.AddScoped<Envialo.Application.UseCases.ShipmentUseCases.Queries.GetShipmentByIdUseCase>();
+builder.Services.AddScoped<Envialo.Application.UseCases.FareOfferUseCases.Commands.CreateFareOfferUseCase>();
+builder.Services.AddScoped<Envialo.Application.UseCases.FareOfferUseCases.Commands.AcceptFareOfferUseCase>();
+builder.Services.AddScoped<Envialo.Application.UseCases.FareOfferUseCases.Queries.GetOffersByShipmentUseCase>();
 
 // (Agrega aquí el resto de tus UseCases conforme vayas creando tus controladores)
 

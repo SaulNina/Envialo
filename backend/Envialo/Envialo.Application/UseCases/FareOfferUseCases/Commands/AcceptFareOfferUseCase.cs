@@ -31,8 +31,8 @@ public sealed class AcceptFareOfferUseCase
         if (shipment.ClientId != clientId)
             throw new UnauthorizedDomainException("No puedes aceptar una oferta de otro cliente.");
 
-        offer.Status    = "accepted";
-        shipment.Status = "assigned";
+        offer.Status    = "ACCEPTED";
+        shipment.Status = "ACCEPTED";
 
         await _offers.UpdateAsync(offer, ct);
         await _shipments.UpdateAsync(shipment, ct);
