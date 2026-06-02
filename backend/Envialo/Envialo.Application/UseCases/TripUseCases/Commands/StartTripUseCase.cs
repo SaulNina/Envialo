@@ -8,40 +8,34 @@ namespace Envialo.Application.UseCases.TripUseCases.Commands;
 public sealed class StartTripUseCase
 {
     private readonly ITripRepository     _trips;
-    private readonly IShipmentRepository _shipments;
     private readonly IUnitOfWork         _uow;
 
+    // Ya no necesitamos el IShipmentRepository aquí porque no cambiaremos el estado del flete
     public StartTripUseCase(
         ITripRepository     trips,
-        IShipmentRepository shipments,
         IUnitOfWork         uow)
     {
         _trips     = trips;
-        _shipments = shipments;
         _uow       = uow;
     }
 
-    public async Task<Trip> ExecuteAsync(Guid shipmentId, Guid driverId, CancellationToken ct = default)
+    public async Task<Trip> ExecuteAsync(Guid tripId, Guid driverId, CancellationToken ct = default)
     {
-        var shipment = await _shipments.GetByIdAsync(shipmentId, ct)
-                       ?? throw new ShipmentNotFoundException(shipmentId);
+        var trip = await _trips.GetByIdAsync(tripId, ct)
+                   ?? throw new DomainException($"El viaje con Id '{tripId}' no fue encontrado.");
 
-        if (shipment.Status != "assigned")
-            throw new DomainException("El envío debe estar asignado para iniciar el viaje.");
-
-        var trip = new Trip
-        {
-            Id         = Guid.NewGuid(),
-            ShipmentId = shipmentId,
-            DriverId   = driverId,
-            Status     = "in_progress",
-            StartedAt  = DateTime.UtcNow
-        };
-
-        shipment.Status = "in_progress";
-        await _trips.AddAsync(trip, ct);
-        await _shipments.UpdateAsync(shipment, ct);
+        if (trip.DriverId != driverId)
+            throw new UnauthorizedDomainException("No puedes iniciar un viaje que no te pertenece.");
+        
+        if (trip.Status != "CONFIRMED")
+            throw new DomainException($"El viaje no se puede iniciar porque está en estado '{trip.Status}'.");
+        
+        trip.Status    = "IN_PROGRESS";
+        trip.StartedAt = DateTime.UtcNow;
+        
+        await _trips.UpdateAsync(trip, ct);
         await _uow.SaveChangesAsync(ct);
+        
         return trip;
     }
 }
