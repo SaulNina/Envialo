@@ -28,7 +28,7 @@ public sealed class CreateRatingUseCase
         var trip = await _trips.GetByIdAsync(tripId, ct)
                    ?? throw new DomainException($"Viaje '{tripId}' no encontrado.");
 
-        if (trip.Status != "completed")
+        if (trip.Status != "COMPLETED")
             throw new DomainException("Solo se pueden calificar viajes completados.");
 
         if (score is < 1 or > 5)

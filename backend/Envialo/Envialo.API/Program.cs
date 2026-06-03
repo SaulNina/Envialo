@@ -34,7 +34,7 @@ builder.Services.AddScoped<Envialo.Application.UseCases.ShipmentUseCases.Queries
 builder.Services.AddScoped<Envialo.Application.UseCases.FareOfferUseCases.Commands.CreateFareOfferUseCase>();
 builder.Services.AddScoped<Envialo.Application.UseCases.FareOfferUseCases.Commands.AcceptFareOfferUseCase>();
 builder.Services.AddScoped<Envialo.Application.UseCases.FareOfferUseCases.Queries.GetOffersByShipmentUseCase>();
-
+builder.Services.AddScoped<Envialo.Application.UseCases.RatingUseCases.Commands.CreateRatingUseCase>();
 
 builder.Services.AddScoped<Envialo.Application.UseCases.TripUseCases.Commands.StartTripUseCase>();
 builder.Services.AddScoped<Envialo.Application.UseCases.TripUseCases.Commands.CompleteTripUseCase>();
