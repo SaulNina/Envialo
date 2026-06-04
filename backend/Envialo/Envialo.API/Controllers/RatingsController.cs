@@ -1,6 +1,7 @@
 ﻿using System.Security.Claims;
 using Envialo.Application.DTOs.Ratings;
 using Envialo.Application.UseCases.RatingUseCases.Commands;
+using Envialo.Application.UseCases.RatingUseCases.Queries;
 using Envialo.Domain.Exceptions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -11,10 +12,12 @@ using Microsoft.AspNetCore.Mvc;
 public class RatingsController : ControllerBase
 {
     private readonly CreateRatingUseCase _createRatingUseCase;
+    private readonly GetUserRatingsUseCase _getUserRatingsUseCase;
 
-    public RatingsController(CreateRatingUseCase createRatingUseCase)
+    public RatingsController(CreateRatingUseCase createRatingUseCase, GetUserRatingsUseCase getUserRatingsUseCase)
     {
         _createRatingUseCase = createRatingUseCase;
+        _getUserRatingsUseCase = getUserRatingsUseCase;
     }
 
     private Guid GetCurrentUserId()
@@ -55,5 +58,13 @@ public class RatingsController : ControllerBase
         {
             return BadRequest(new { error = ex.Message });
         }
+    }
+    
+    [HttpGet("users/{userId:guid}")]
+    [ProducesResponseType(typeof(UserRatingSummaryDto), StatusCodes.Status200OK)]
+    public async Task<IActionResult> GetUserRatings(Guid userId, CancellationToken ct)
+    {
+        var result = await _getUserRatingsUseCase.ExecuteAsync(userId, ct);
+        return Ok(result);
     }
 }
