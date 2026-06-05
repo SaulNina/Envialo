@@ -43,6 +43,9 @@ builder.Services.AddScoped<Envialo.Application.UseCases.TripUseCases.Queries.Get
 
 builder.Services.AddScoped<Envialo.Application.UseCases.ShipmentUseCases.Commands.CancelShipmentUseCase>();
 builder.Services.AddScoped<Envialo.Application.UseCases.TripUseCases.Commands.CancelTripUseCase>();
+
+builder.Services.AddScoped<Envialo.Application.UseCases.UserUseCases.Queries.GetUserProfileUseCase>();
+builder.Services.AddScoped<Envialo.Application.UseCases.UserUseCases.Commands.UpdateUserProfileUseCase>();
 // (Agrega aquí el resto de tus UseCases conforme vayas creando tus controladores)
 
 // 4. Configurar Autenticación JWT
