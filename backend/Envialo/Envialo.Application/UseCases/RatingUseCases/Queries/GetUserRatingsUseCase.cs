@@ -14,16 +14,13 @@ public sealed class GetUserRatingsUseCase
 
     public async Task<UserRatingSummaryDto> ExecuteAsync(Guid userId, CancellationToken ct = default)
     {
-        // Obtener todas las reseñas donde este usuario es el calificado
         var ratings = await _ratings.GetByUserIdAsync(userId, ct);
         
         var ratingList = ratings.ToList();
 
-        // Calcular el promedio matemáticamente
         var average = ratingList.Any() ? ratingList.Average(r => r.Score) : 0;
         var total = ratingList.Count;
 
-        // Mapear a DTOs
         var reviews = ratingList.Select(r => new RatingResponseDto(
             r.Id,
             r.TripId,

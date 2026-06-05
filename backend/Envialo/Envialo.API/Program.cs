@@ -46,6 +46,9 @@ builder.Services.AddScoped<Envialo.Application.UseCases.TripUseCases.Commands.Ca
 
 builder.Services.AddScoped<Envialo.Application.UseCases.UserUseCases.Queries.GetUserProfileUseCase>();
 builder.Services.AddScoped<Envialo.Application.UseCases.UserUseCases.Commands.UpdateUserProfileUseCase>();
+
+builder.Services.AddScoped<Envialo.Application.UseCases.UploadUseCases.Commands.UploadImageUseCase>();
+builder.Services.AddHttpClient<Envialo.Application.Ports.IStorageService, Envialo.Infrastructure.Service.SupabaseStorageService>();
 // (Agrega aquí el resto de tus UseCases conforme vayas creando tus controladores)
 
 // 4. Configurar Autenticación JWT

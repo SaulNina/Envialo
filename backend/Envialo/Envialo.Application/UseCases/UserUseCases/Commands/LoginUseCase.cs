@@ -30,7 +30,6 @@ public sealed class LoginUseCase
         var user = await _users.GetByEmailAsync(dto.Email.ToLower(), ct)
                    ?? throw new UnauthorizedDomainException("Credenciales inválidas.");
 
-        // ¡Corregido! Ya no verificamos un booleano, evaluamos el CHECK constraint de la base de datos
         if (user.Status is "SUSPENDED" or "DELETED" or "PENDING_VERIFICATION")
             throw new UnauthorizedDomainException($"La cuenta no está activa. Estado actual: {user.Status}");
 
