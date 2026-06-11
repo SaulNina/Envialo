@@ -2,6 +2,7 @@ using Envialo.Application.Abstractions;
 using Envialo.Application.Ports;
 using Envialo.Domain.Entities;
 using Envialo.Domain.Exceptions;
+using Envialo.Domain.Constants;
 
 namespace Envialo.Application.UseCases.FareOfferUseCases.Commands;
 
@@ -35,8 +36,8 @@ public sealed class AcceptFareOfferUseCase
         if (shipment.ClientId != clientId)
             throw new UnauthorizedDomainException("No puedes aceptar una oferta de otro cliente.");
 
-        offer.Status    = "ACCEPTED";
-        shipment.Status = "ACCEPTED";
+        offer.Status    = OfferStatuses.Accepted;
+        shipment.Status = ShipmentStatuses.Accepted;
 
         var trip = new Trip
         {
@@ -45,7 +46,7 @@ public sealed class AcceptFareOfferUseCase
             DriverId = offer.DriverId,
             AcceptedOfferId = offer.Id,
             FinalPrice = offer.OfferedPrice,
-            Status = "CONFIRMED"
+            Status = TripStatuses.Confirmed
         };
 
         await _offers.UpdateAsync(offer, ct);

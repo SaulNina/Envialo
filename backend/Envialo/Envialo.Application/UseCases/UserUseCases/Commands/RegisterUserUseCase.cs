@@ -3,6 +3,7 @@ using Envialo.Application.DTOs.Auth;
 using Envialo.Application.Ports;
 using Envialo.Domain.Entities;
 using Envialo.Domain.Exceptions;
+using Envialo.Domain.Constants;
 
 namespace Envialo.Application.UseCases.UserUseCases.Commands;
 
@@ -38,7 +39,7 @@ public sealed class RegisterUserUseCase
             PasswordHash = _hasher.Hash(dto.Password),
             Phone        = dto.Phone,
             Role         = dto.Role,
-            Status     = "ACTIVE",
+            Status     = UserStatuses.Active,
             CreatedAt    = DateTime.UtcNow
         };
 

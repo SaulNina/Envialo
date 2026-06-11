@@ -2,6 +2,7 @@ using Envialo.Application.Abstractions;
 using Envialo.Application.DTOs.Shipments;
 using Envialo.Application.Ports;
 using Envialo.Domain.Entities;
+using Envialo.Domain.Constants;
 
 namespace Envialo.Application.UseCases.ShipmentUseCases.Commands;
 
@@ -27,12 +28,12 @@ public sealed class CreateShipmentUseCase
             DestinationAddress = dto.DestinationAddress,
             CargoDescription   = dto.CargoDescription,
             WeightKg           = dto.WeightKg,
-            SuggestedPrice     = dto.SuggestedFare, // ¡Corregido! Mapea a SuggestedPrice
-            Currency           = "PEN",             // ¡Obligatorio por tu DB!
-            Status             = "OPEN",            // ¡Corregido! Debe coincidir con el CHECK constraint
+            SuggestedPrice     = dto.SuggestedFare,
+            Currency           = Currencies.Pen,             
+            Status             = ShipmentStatuses.Open,           
             CreatedAt          = DateTime.UtcNow,
             UpdatedAt          = DateTime.UtcNow,
-            ExpiresAt          = DateTime.UtcNow.AddHours(2) // La BD exige expires_at
+            ExpiresAt          = DateTime.UtcNow.AddHours(2) 
         };
 
         await _shipments.AddAsync(shipment, ct);

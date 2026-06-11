@@ -40,7 +40,6 @@ public class RatingsController : ControllerBase
         {
             var raterId = GetCurrentUserId();
             
-            // Llamamos a TU caso de uso respetando el orden de tus parámetros
             var rating = await _createRatingUseCase.ExecuteAsync(
                 dto.TripId, 
                 raterId, 

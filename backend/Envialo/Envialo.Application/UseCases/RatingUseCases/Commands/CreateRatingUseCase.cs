@@ -1,5 +1,6 @@
 using Envialo.Application.Abstractions;
 using Envialo.Application.Ports;
+using Envialo.Domain.Constants;
 using Envialo.Domain.Entities;
 using Envialo.Domain.Exceptions;
 
@@ -28,7 +29,7 @@ public sealed class CreateRatingUseCase
         var trip = await _trips.GetByIdAsync(tripId, ct)
                    ?? throw new DomainException($"Viaje '{tripId}' no encontrado.");
 
-        if (trip.Status != "COMPLETED")
+        if (trip.Status != TripStatuses.Completed)
             throw new DomainException("Solo se pueden calificar viajes completados.");
 
         if (score is < 1 or > 5)

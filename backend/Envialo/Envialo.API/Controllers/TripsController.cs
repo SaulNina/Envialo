@@ -1,6 +1,7 @@
 using System.Security.Claims;
 using Envialo.Application.UseCases.TripUseCases.Commands;
 using Envialo.Application.UseCases.TripUseCases.Queries;
+using Envialo.Domain.Constants;
 using Envialo.Domain.Exceptions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -54,7 +55,7 @@ public class TripsController : ControllerBase
     }
 
     [HttpPost("{id:guid}/start")]
-    [Authorize(Roles = "DRIVER")] // 🔒 Solo el conductor que aceptó el viaje puede iniciarlo
+    [Authorize(Roles = UserRoles.Driver)] //Solo el conductor que aceptó el viaje puede iniciarlo
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> Start(Guid id, CancellationToken ct)
@@ -74,7 +75,7 @@ public class TripsController : ControllerBase
     }
 
     [HttpPost("{id:guid}/complete")]
-    [Authorize(Roles = "DRIVER")] // 🔒 Solo el conductor puede finalizarlo
+    [Authorize(Roles = UserRoles.Driver)] // Solo el conductor puede finalizarlo
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> Complete(Guid id, CancellationToken ct)

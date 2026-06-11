@@ -43,7 +43,6 @@ public class CancelationsController : ControllerBase
         try
         {
             var userId = GetCurrentUserId();
-            // Llama de forma exacta al método con sus 4 parámetros requeridos
             await _cancelShipmentUseCase.ExecuteAsync(id, userId, dto.Reason, ct);
             return Ok(new { Message = "El flete ha sido cancelado exitosamente." });
         }

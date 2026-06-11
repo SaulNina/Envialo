@@ -1,6 +1,7 @@
 using Envialo.Application.Abstractions;
 using Envialo.Application.Ports;
 using Envialo.Domain.Exceptions;
+using Envialo.Domain.Constants;
 
 namespace Envialo.Application.UseCases.ShipmentUseCases.Commands;
 
@@ -23,10 +24,10 @@ public sealed class CancelShipmentUseCase
         if (shipment.ClientId != requestingUserId)
             throw new UnauthorizedDomainException("No tienes permiso para cancelar este envío.");
 
-        if (shipment.Status != "OPEN" && shipment.Status != "NEGOTIATING")
+        if (shipment.Status != ShipmentStatuses.Open && shipment.Status != ShipmentStatuses.Negotiating)
             throw new DomainException($"No se puede cancelar un envío en estado '{shipment.Status}'.");
 
-        shipment.Status = "CANCELLED";
+        shipment.Status = ShipmentStatuses.Cancelled;
         shipment.CancelReason = reason; 
 
         await _shipments.UpdateAsync(shipment, ct);

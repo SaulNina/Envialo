@@ -2,6 +2,7 @@ using Envialo.Application.Abstractions;
 using Envialo.Application.Ports;
 using Envialo.Domain.Entities;
 using Envialo.Domain.Exceptions;
+using Envialo.Domain.Constants;
 
 namespace Envialo.Application.UseCases.FareOfferUseCases.Commands;
 
@@ -27,7 +28,7 @@ public sealed class CreateFareOfferUseCase
         var shipment = await _shipments.GetByIdAsync(shipmentId, ct)
                        ?? throw new ShipmentNotFoundException(shipmentId);
 
-        if (shipment.Status != "OPEN") // Corregido de "pending" a "OPEN"
+        if (shipment.Status != ShipmentStatuses.Open)
             throw new DomainException("Solo se pueden hacer ofertas en envíos abiertos.");
 
         var offer = new FareOffer
@@ -35,9 +36,9 @@ public sealed class CreateFareOfferUseCase
             Id           = Guid.NewGuid(),
             ShipmentId   = shipmentId,
             DriverId     = driverId,
-            OfferedPrice = amount,      // ¡Corregido! Ya no es "Amount"
-            Currency     = "PEN",       // ¡Obligatorio!
-            Status       = "PENDING",   // ¡En mayúsculas según el CHECK de tu SQL!
+            OfferedPrice = amount,   
+            Currency     = Currencies.Pen,      
+            Status       = OfferStatuses.Pending,   
             CreatedAt    = DateTime.UtcNow,
             UpdatedAt    = DateTime.UtcNow
         };

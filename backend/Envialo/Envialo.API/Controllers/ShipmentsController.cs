@@ -2,6 +2,7 @@ using System.Security.Claims;
 using Envialo.Application.DTOs.Shipments;
 using Envialo.Application.UseCases.ShipmentUseCases.Commands;
 using Envialo.Application.UseCases.ShipmentUseCases.Queries;
+using Envialo.Domain.Constants;
 using Envialo.Domain.Exceptions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -10,7 +11,7 @@ namespace Envialo.API.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-[Authorize] //TODAS las rutas aquí requieren estar logueado con JWT
+[Authorize] 
 public class ShipmentsController : ControllerBase
 {
     private readonly CreateShipmentUseCase      _createShipmentUseCase;
@@ -43,7 +44,7 @@ public class ShipmentsController : ControllerBase
     }
 
     [HttpPost]
-    [Authorize(Roles = "CLIENT")] //Solo el cliente puede crear fletes
+    [Authorize(Roles = UserRoles.Client)] 
     [ProducesResponseType(typeof(ShipmentResponseDto), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> Create([FromBody] CreateShipmentDto dto, CancellationToken ct)
@@ -62,7 +63,7 @@ public class ShipmentsController : ControllerBase
     }
 
     [HttpGet("pending")]
-    [Authorize(Roles = "DRIVER")] //Solo el conductor ve el feed de pendientes
+    [Authorize(Roles = UserRoles.Driver)] //Solo el conductor ve el feed de pendientes
     [ProducesResponseType(typeof(IReadOnlyList<ShipmentResponseDto>), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetPending(CancellationToken ct)
     {

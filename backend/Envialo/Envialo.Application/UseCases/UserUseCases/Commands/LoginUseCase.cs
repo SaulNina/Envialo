@@ -3,6 +3,8 @@ using Envialo.Application.DTOs.Auth;
 using Envialo.Application.Ports;
 using Envialo.Domain.Entities;
 using Envialo.Domain.Exceptions;
+using Envialo.Domain.Constants;
+
 
 namespace Envialo.Application.UseCases.UserUseCases.Commands;
 
@@ -30,7 +32,7 @@ public sealed class LoginUseCase
         var user = await _users.GetByEmailAsync(dto.Email.ToLower(), ct)
                    ?? throw new UnauthorizedDomainException("Credenciales inválidas.");
 
-        if (user.Status is "SUSPENDED" or "DELETED" or "PENDING_VERIFICATION")
+        if (user.Status is UserStatuses.Suspended or UserStatuses.Deleted or UserStatuses.PendingVerification)
             throw new UnauthorizedDomainException($"La cuenta no está activa. Estado actual: {user.Status}");
 
         if (!_hasher.Verify(dto.Password, user.PasswordHash!))
@@ -42,7 +44,7 @@ public sealed class LoginUseCase
             user.Email,
             user.Role,
             _jwt.GenerateAccessToken(user),
-            _jwt.GenerateRefreshToken(), // Aún debemos crear el repositorio para guardar este token
+            _jwt.GenerateRefreshToken(), 
             DateTime.UtcNow.AddMinutes(60)
         );
     }

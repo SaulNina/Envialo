@@ -21,7 +21,7 @@ public class AuthController : ControllerBase
     [HttpPost("register")]
     [ProducesResponseType(typeof(AuthResponseDto), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status409Conflict)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)] // Actualizamos el tipo de respuesta documentada
     public async Task<IActionResult> Register([FromBody] RegisterDto dto, CancellationToken ct)
     {
         try
@@ -34,9 +34,10 @@ public class AuthController : ControllerBase
         {
             return BadRequest(new { error = ex.Message });
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            return Conflict(new { error = "El correo o teléfono ya se encuentra registrado." });
+            return StatusCode(StatusCodes.Status500InternalServerError, 
+                new { error = "Ocurrió un error inesperado en el servidor al intentar registrar el usuario." });
         }
     }
 
@@ -53,6 +54,10 @@ public class AuthController : ControllerBase
         catch (UnauthorizedDomainException ex)
         {
             return Unauthorized(new { error = ex.Message });
+        }
+        catch (DomainException ex)
+        {
+            return BadRequest(new { error = ex.Message });
         }
     }
 }

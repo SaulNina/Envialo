@@ -2,6 +2,7 @@ using System.Security.Claims;
 using Envialo.Application.DTOs.Offers;
 using Envialo.Application.UseCases.FareOfferUseCases.Commands;
 using Envialo.Application.UseCases.FareOfferUseCases.Queries;
+using Envialo.Domain.Constants;
 using Envialo.Domain.Exceptions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -39,7 +40,7 @@ public class FareOffersController : ControllerBase
     }
 
     [HttpPost]
-    [Authorize(Roles = "DRIVER")] // Solo conductores ofertan
+    [Authorize(Roles = UserRoles.Driver)] 
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> Create([FromBody] CreateFareOfferDto dto, CancellationToken ct)
@@ -67,7 +68,7 @@ public class FareOffersController : ControllerBase
     }
 
     [HttpPut("{id:guid}/accept")]
-    [Authorize(Roles = "CLIENT")] //Solo el cliente dueño de la carga puede aceptar
+    [Authorize(Roles = UserRoles.Client)] 
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status403Forbidden)]

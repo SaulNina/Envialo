@@ -28,7 +28,7 @@ public sealed class GetUserRatingsUseCase
             r.Score,
             r.Comment,
             r.CreatedAt
-        )).OrderByDescending(r => r.CreatedAt); // Los más recientes primero
+        )).OrderByDescending(r => r.CreatedAt); 
 
         return new UserRatingSummaryDto(Math.Round(average, 1), total, reviews);
     }

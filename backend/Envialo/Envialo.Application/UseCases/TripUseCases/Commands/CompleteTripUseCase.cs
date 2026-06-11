@@ -1,5 +1,6 @@
 using Envialo.Application.Abstractions;
 using Envialo.Application.Ports;
+using Envialo.Domain.Constants;
 using Envialo.Domain.Exceptions;
 
 namespace Envialo.Application.UseCases.TripUseCases.Commands;
@@ -24,10 +25,10 @@ public sealed class CompleteTripUseCase
         if (trip.DriverId != driverId)
             throw new UnauthorizedDomainException("No puedes completar un viaje que no te pertenece.");
         
-        if (trip.Status != "IN_PROGRESS")
+        if (trip.Status != TripStatuses.InProgress)
             throw new DomainException($"Solo se puede completar un viaje en progreso. Estado actual: '{trip.Status}'.");
         
-        trip.Status      = "COMPLETED"; 
+        trip.Status      = TripStatuses.Completed; 
         trip.CompletedAt = DateTime.UtcNow;
 
         await _trips.UpdateAsync(trip, ct);

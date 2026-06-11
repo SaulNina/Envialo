@@ -1,5 +1,6 @@
 using Envialo.Application.Abstractions;
 using Envialo.Application.Ports;
+using Envialo.Domain.Constants;
 using Envialo.Domain.Entities;
 using Envialo.Domain.Exceptions;
 
@@ -10,7 +11,6 @@ public sealed class StartTripUseCase
     private readonly ITripRepository     _trips;
     private readonly IUnitOfWork         _uow;
 
-    // Ya no necesitamos el IShipmentRepository aquí porque no cambiaremos el estado del flete
     public StartTripUseCase(
         ITripRepository     trips,
         IUnitOfWork         uow)
@@ -27,10 +27,10 @@ public sealed class StartTripUseCase
         if (trip.DriverId != driverId)
             throw new UnauthorizedDomainException("No puedes iniciar un viaje que no te pertenece.");
         
-        if (trip.Status != "CONFIRMED")
+        if (trip.Status != TripStatuses.Confirmed)
             throw new DomainException($"El viaje no se puede iniciar porque está en estado '{trip.Status}'.");
         
-        trip.Status    = "IN_PROGRESS";
+        trip.Status    = TripStatuses.InProgress;
         trip.StartedAt = DateTime.UtcNow;
         
         await _trips.UpdateAsync(trip, ct);
