@@ -13,15 +13,15 @@ namespace Envialo.API.Controllers;
 [Authorize] // Protegido, requiere Token
 public class UsersController : ControllerBase
 {
-    private readonly GetUserProfileUseCase    _getUserProfileUseCase;
-    private readonly UpdateUserProfileUseCase _updateUserProfileUseCase;
+    private readonly GetUserProfileQuery    _getUserProfileQuery;
+    private readonly UpdateUserProfileCommand _updateUserProfileCommand;
 
     public UsersController(
-        GetUserProfileUseCase getUserProfileUseCase,
-        UpdateUserProfileUseCase updateUserProfileUseCase)
+        GetUserProfileQuery getUserProfileQuery,
+        UpdateUserProfileCommand updateUserProfileCommand)
     {
-        _getUserProfileUseCase    = getUserProfileUseCase;
-        _updateUserProfileUseCase = updateUserProfileUseCase;
+        _getUserProfileQuery    = getUserProfileQuery;
+        _updateUserProfileCommand = updateUserProfileCommand;
     }
 
     private Guid GetCurrentUserId()
@@ -42,7 +42,7 @@ public class UsersController : ControllerBase
         try
         {
             var userId = GetCurrentUserId();
-            var profile = await _getUserProfileUseCase.ExecuteAsync(userId, ct);
+            var profile = await _getUserProfileQuery.ExecuteAsync(userId, ct);
             return Ok(profile);
         }
         catch (DomainException ex)
@@ -59,7 +59,7 @@ public class UsersController : ControllerBase
         try
         {
             var userId = GetCurrentUserId();
-            await _updateUserProfileUseCase.ExecuteAsync(userId, dto, ct);
+            await _updateUserProfileCommand.ExecuteAsync(userId, dto, ct);
             return Ok(new { Message = "Perfil actualizado correctamente." });
         }
         catch (DomainException ex)

@@ -13,15 +13,15 @@ namespace Envialo.API.Controllers;
 [Authorize]
 public class CancelationsController : ControllerBase
 {
-    private readonly CancelShipmentUseCase _cancelShipmentUseCase;
-    private readonly CancelTripUseCase     _cancelTripUseCase;
+    private readonly CancelShipmentCommand _cancelShipmentCommand;
+    private readonly CancelTripCommand     _cancelTripCommand;
 
     public CancelationsController(
-        CancelShipmentUseCase cancelShipmentUseCase,
-        CancelTripUseCase     cancelTripUseCase)
+        CancelShipmentCommand cancelShipmentCommand,
+        CancelTripCommand     cancelTripCommand)
     {
-        _cancelShipmentUseCase = cancelShipmentUseCase;
-        _cancelTripUseCase     = cancelTripUseCase;
+        _cancelShipmentCommand = cancelShipmentCommand;
+        _cancelTripCommand     = cancelTripCommand;
     }
 
     private Guid GetCurrentUserId()
@@ -43,7 +43,7 @@ public class CancelationsController : ControllerBase
         try
         {
             var userId = GetCurrentUserId();
-            await _cancelShipmentUseCase.ExecuteAsync(id, userId, dto.Reason, ct);
+            await _cancelShipmentCommand.ExecuteAsync(id, userId, dto.Reason, ct);
             return Ok(new { Message = "El flete ha sido cancelado exitosamente." });
         }
         catch (DomainException ex)
@@ -60,7 +60,7 @@ public class CancelationsController : ControllerBase
         try
         {
             var userId = GetCurrentUserId();
-            await _cancelTripUseCase.ExecuteAsync(id, userId, dto.Reason, ct);
+            await _cancelTripCommand.ExecuteAsync(id, userId, dto.Reason, ct);
             return Ok(new { Message = "El viaje ha sido cancelado. Se notificará a las partes." });
         }
         catch (DomainException ex)

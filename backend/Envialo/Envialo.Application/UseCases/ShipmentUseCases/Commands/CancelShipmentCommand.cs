@@ -4,12 +4,12 @@ using Envialo.Domain.Ports.IRepositories;
 
 namespace Envialo.Application.UseCases.ShipmentUseCases.Commands;
 
-public sealed class CancelShipmentUseCase
+public sealed class CancelShipmentCommand
 {
     private readonly IShipmentRepository _shipments;
     private readonly IUnitOfWork         _uow;
 
-    public CancelShipmentUseCase(IShipmentRepository shipments, IUnitOfWork uow)
+    public CancelShipmentCommand(IShipmentRepository shipments, IUnitOfWork uow)
     {
         _shipments = shipments;
         _uow       = uow;

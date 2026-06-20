@@ -5,12 +5,12 @@ using Envialo.Domain.Ports.IRepositories;
 
 namespace Envialo.Application.UseCases.TripUseCases.Commands;
 
-public sealed class StartTripUseCase
+public sealed class StartTripCommand
 {
     private readonly ITripRepository     _trips;
     private readonly IUnitOfWork         _uow;
 
-    public StartTripUseCase(
+    public StartTripCommand(
         ITripRepository     trips,
         IUnitOfWork         uow)
     {

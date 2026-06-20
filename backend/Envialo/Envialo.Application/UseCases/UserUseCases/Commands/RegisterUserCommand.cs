@@ -7,14 +7,14 @@ using Envialo.Domain.Ports.IServices;
 
 namespace Envialo.Application.UseCases.UserUseCases.Commands;
 
-public sealed class RegisterUserUseCase
+public sealed class RegisterUserCommand
 {
     private readonly IUserRepository      _users;
     private readonly IPasswordHasherService _hasher;
     private readonly IJwtTokenService     _jwt;
     private readonly IUnitOfWork          _uow;
 
-    public RegisterUserUseCase(
+    public RegisterUserCommand(
         IUserRepository      users,
         IPasswordHasherService hasher,
         IJwtTokenService     jwt,

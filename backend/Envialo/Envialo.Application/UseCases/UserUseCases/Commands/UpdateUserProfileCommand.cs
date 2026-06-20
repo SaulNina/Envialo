@@ -4,12 +4,12 @@ using Envialo.Domain.Ports.IRepositories;
 
 namespace Envialo.Application.UseCases.UserUseCases.Commands;
 
-public sealed class UpdateUserProfileUseCase
+public sealed class UpdateUserProfileCommand
 {
     private readonly IUserRepository _users;
     private readonly IUnitOfWork     _uow;
 
-    public UpdateUserProfileUseCase(IUserRepository users, IUnitOfWork uow)
+    public UpdateUserProfileCommand(IUserRepository users, IUnitOfWork uow)
     {
         _users = users;
         _uow   = uow;

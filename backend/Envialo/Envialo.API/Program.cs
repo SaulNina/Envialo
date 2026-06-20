@@ -26,28 +26,28 @@ builder.Services.AddSingleton<IPasswordHasherService, PasswordHasherService>();
 builder.Services.AddSingleton<IJwtTokenService, JwtTokenService>();
 
 // 3. Registrar Casos de Uso (Puedes usar una librería como Scrutor o inyectarlos manualmente así)
-builder.Services.AddScoped<Envialo.Application.UseCases.UserUseCases.Commands.RegisterUserUseCase>();
-builder.Services.AddScoped<Envialo.Application.UseCases.UserUseCases.Commands.LoginUseCase>();
-builder.Services.AddScoped<Envialo.Application.UseCases.ShipmentUseCases.Commands.CreateShipmentUseCase>();
-builder.Services.AddScoped<Envialo.Application.UseCases.ShipmentUseCases.Queries.GetPendingShipmentsUseCase>();
-builder.Services.AddScoped<Envialo.Application.UseCases.ShipmentUseCases.Queries.GetShipmentByIdUseCase>();
-builder.Services.AddScoped<Envialo.Application.UseCases.FareOfferUseCases.Commands.CreateFareOfferUseCase>();
-builder.Services.AddScoped<Envialo.Application.UseCases.FareOfferUseCases.Commands.AcceptFareOfferUseCase>();
-builder.Services.AddScoped<Envialo.Application.UseCases.FareOfferUseCases.Queries.GetOffersByShipmentUseCase>();
-builder.Services.AddScoped<Envialo.Application.UseCases.RatingUseCases.Commands.CreateRatingUseCase>();
-builder.Services.AddScoped<Envialo.Application.UseCases.RatingUseCases.Queries.GetUserRatingsUseCase>();
+builder.Services.AddScoped<Envialo.Application.UseCases.UserUseCases.Commands.RegisterUserCommand>();
+builder.Services.AddScoped<Envialo.Application.UseCases.UserUseCases.Commands.LoginCommand>();
+builder.Services.AddScoped<Envialo.Application.UseCases.ShipmentUseCases.Commands.CreateShipmentCommand>();
+builder.Services.AddScoped<Envialo.Application.UseCases.ShipmentUseCases.Queries.GetPendingShipmentsQuery>();
+builder.Services.AddScoped<Envialo.Application.UseCases.ShipmentUseCases.Queries.GetShipmentByIdQuery>();
+builder.Services.AddScoped<Envialo.Application.UseCases.FareOfferUseCases.Commands.CreateFareOfferCommand>();
+builder.Services.AddScoped<Envialo.Application.UseCases.FareOfferUseCases.Commands.AcceptFareOfferCommand>();
+builder.Services.AddScoped<Envialo.Application.UseCases.FareOfferUseCases.Queries.GetOffersByShipmentQuery>();
+builder.Services.AddScoped<Envialo.Application.UseCases.RatingUseCases.Commands.CreateRatingCommand>();
+builder.Services.AddScoped<Envialo.Application.UseCases.RatingUseCases.Queries.GetUserRatingsQuery>();
 
-builder.Services.AddScoped<Envialo.Application.UseCases.TripUseCases.Commands.StartTripUseCase>();
-builder.Services.AddScoped<Envialo.Application.UseCases.TripUseCases.Commands.CompleteTripUseCase>();
-builder.Services.AddScoped<Envialo.Application.UseCases.TripUseCases.Queries.GetTripByIdUseCase>();
+builder.Services.AddScoped<Envialo.Application.UseCases.TripUseCases.Commands.StartTripCommand>();
+builder.Services.AddScoped<Envialo.Application.UseCases.TripUseCases.Commands.CompleteTripCommand>();
+builder.Services.AddScoped<Envialo.Application.UseCases.TripUseCases.Queries.GetTripByIdQuery>();
 
-builder.Services.AddScoped<Envialo.Application.UseCases.ShipmentUseCases.Commands.CancelShipmentUseCase>();
-builder.Services.AddScoped<Envialo.Application.UseCases.TripUseCases.Commands.CancelTripUseCase>();
+builder.Services.AddScoped<Envialo.Application.UseCases.ShipmentUseCases.Commands.CancelShipmentCommand>();
+builder.Services.AddScoped<Envialo.Application.UseCases.TripUseCases.Commands.CancelTripCommand>();
 
-builder.Services.AddScoped<Envialo.Application.UseCases.UserUseCases.Queries.GetUserProfileUseCase>();
-builder.Services.AddScoped<Envialo.Application.UseCases.UserUseCases.Commands.UpdateUserProfileUseCase>();
+builder.Services.AddScoped<Envialo.Application.UseCases.UserUseCases.Queries.GetUserProfileQuery>();
+builder.Services.AddScoped<Envialo.Application.UseCases.UserUseCases.Commands.UpdateUserProfileCommand>();
 
-builder.Services.AddScoped<Envialo.Application.UseCases.UploadUseCases.Commands.UploadImageUseCase>();
+builder.Services.AddScoped<Envialo.Application.UseCases.UploadUseCases.Commands.UploadImageCommand>();
 builder.Services.AddHttpClient<Envialo.Domain.Ports.IServices.IStorageService, Envialo.Infrastructure.Adapters.Service.SupabaseStorageService>();
 // (Agrega aquí el resto de tus UseCases conforme vayas creando tus controladores)
 

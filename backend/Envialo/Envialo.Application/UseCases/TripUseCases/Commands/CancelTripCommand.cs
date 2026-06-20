@@ -4,13 +4,13 @@ using Envialo.Domain.Ports.IRepositories;
 
 namespace Envialo.Application.UseCases.TripUseCases.Commands;
 
-public sealed class CancelTripUseCase
+public sealed class CancelTripCommand
 {
     private readonly ITripRepository     _trips;
     private readonly IShipmentRepository _shipments;
     private readonly IUnitOfWork         _uow;
 
-    public CancelTripUseCase(ITripRepository trips, IShipmentRepository shipments, IUnitOfWork uow)
+    public CancelTripCommand(ITripRepository trips, IShipmentRepository shipments, IUnitOfWork uow)
     {
         _trips     = trips;
         _shipments = shipments;

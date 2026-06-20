@@ -11,13 +11,13 @@ using Microsoft.AspNetCore.Mvc;
 [Authorize]
 public class RatingsController : ControllerBase
 {
-    private readonly CreateRatingUseCase _createRatingUseCase;
-    private readonly GetUserRatingsUseCase _getUserRatingsUseCase;
+    private readonly CreateRatingCommand _createRatingCommand;
+    private readonly GetUserRatingsQuery _getUserRatingsQuery;
 
-    public RatingsController(CreateRatingUseCase createRatingUseCase, GetUserRatingsUseCase getUserRatingsUseCase)
+    public RatingsController(CreateRatingCommand createRatingCommand, GetUserRatingsQuery getUserRatingsQuery)
     {
-        _createRatingUseCase = createRatingUseCase;
-        _getUserRatingsUseCase = getUserRatingsUseCase;
+        _createRatingCommand = createRatingCommand;
+        _getUserRatingsQuery = getUserRatingsQuery;
     }
 
     private Guid GetCurrentUserId()
@@ -40,7 +40,7 @@ public class RatingsController : ControllerBase
         {
             var raterId = GetCurrentUserId();
             
-            var rating = await _createRatingUseCase.ExecuteAsync(
+            var rating = await _createRatingCommand.ExecuteAsync(
                 dto.TripId, 
                 raterId, 
                 dto.RatedUserId, 
@@ -63,7 +63,7 @@ public class RatingsController : ControllerBase
     [ProducesResponseType(typeof(UserRatingSummaryDto), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetUserRatings(Guid userId, CancellationToken ct)
     {
-        var result = await _getUserRatingsUseCase.ExecuteAsync(userId, ct);
+        var result = await _getUserRatingsQuery.ExecuteAsync(userId, ct);
         return Ok(result);
     }
 }

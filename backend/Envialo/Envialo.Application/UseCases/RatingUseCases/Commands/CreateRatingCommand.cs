@@ -5,13 +5,13 @@ using Envialo.Domain.Ports.IRepositories;
 
 namespace Envialo.Application.UseCases.RatingUseCases.Commands;
 
-public sealed class CreateRatingUseCase
+public sealed class CreateRatingCommand
 {
     private readonly IRatingRepository _ratings;
     private readonly ITripRepository   _trips;
     private readonly IUnitOfWork       _uow;
 
-    public CreateRatingUseCase(
+    public CreateRatingCommand(
         IRatingRepository ratings,
         ITripRepository   trips,
         IUnitOfWork       uow)

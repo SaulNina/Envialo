@@ -13,18 +13,18 @@ namespace Envialo.API.Controllers;
 [Authorize]
 public class TripsController : ControllerBase
 {
-    private readonly StartTripUseCase    _startTripUseCase;
-    private readonly CompleteTripUseCase _completeTripUseCase;
-    private readonly GetTripByIdUseCase  _getTripByIdUseCase;
+    private readonly StartTripCommand    _startTripCommand;
+    private readonly CompleteTripCommand _completeTripCommand;
+    private readonly GetTripByIdQuery  _getTripByIdQuery;
 
     public TripsController(
-        StartTripUseCase    startTripUseCase,
-        CompleteTripUseCase completeTripUseCase,
-        GetTripByIdUseCase  getTripByIdUseCase)
+        StartTripCommand    startTripCommand,
+        CompleteTripCommand completeTripCommand,
+        GetTripByIdQuery  getTripByIdQuery)
     {
-        _startTripUseCase    = startTripUseCase;
-        _completeTripUseCase = completeTripUseCase;
-        _getTripByIdUseCase  = getTripByIdUseCase;
+        _startTripCommand    = startTripCommand;
+        _completeTripCommand = completeTripCommand;
+        _getTripByIdQuery  = getTripByIdQuery;
     }
 
     private Guid GetCurrentUserId()
@@ -45,7 +45,7 @@ public class TripsController : ControllerBase
     {
         try
         {
-            var trip = await _getTripByIdUseCase.ExecuteAsync(id, ct);
+            var trip = await _getTripByIdQuery.ExecuteAsync(id, ct);
             return Ok(trip);
         }
         catch (DomainException ex)
@@ -64,7 +64,7 @@ public class TripsController : ControllerBase
         {
             var driverId = GetCurrentUserId();
             // Ejecutamos el caso de uso pasando el ID del viaje y el ID del conductor para validar que sea él
-            await _startTripUseCase.ExecuteAsync(id, driverId, ct);
+            await _startTripCommand.ExecuteAsync(id, driverId, ct);
             
             return Ok(new { Message = "Viaje iniciado. ¡Buen camino!" });
         }
@@ -83,7 +83,7 @@ public class TripsController : ControllerBase
         try
         {
             var driverId = GetCurrentUserId();
-            await _completeTripUseCase.ExecuteAsync(id, driverId, ct);
+            await _completeTripCommand.ExecuteAsync(id, driverId, ct);
             
             return Ok(new { Message = "Viaje completado exitosamente. Carga entregada." });
         }

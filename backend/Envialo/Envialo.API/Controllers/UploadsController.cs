@@ -10,11 +10,11 @@ namespace Envialo.API.Controllers;
 [Authorize]
 public class UploadsController : ControllerBase
 {
-    private readonly UploadImageUseCase _uploadImageUseCase;
+    private readonly UploadImageCommand _uploadImageCommand;
 
-    public UploadsController(UploadImageUseCase uploadImageUseCase)
+    public UploadsController(UploadImageCommand uploadImageCommand)
     {
-        _uploadImageUseCase = uploadImageUseCase;
+        _uploadImageCommand = uploadImageCommand;
     }
 
     [HttpPost("image")]
@@ -24,7 +24,7 @@ public class UploadsController : ControllerBase
     {
         try
         {
-            var publicUrl = await _uploadImageUseCase.ExecuteAsync(dto.File, ct);
+            var publicUrl = await _uploadImageCommand.ExecuteAsync(dto.File, ct);
             
             return Ok(new 
             { 

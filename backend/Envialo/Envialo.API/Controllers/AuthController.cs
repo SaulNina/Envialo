@@ -9,13 +9,13 @@ namespace Envialo.API.Controllers;
 [Route("api/[controller]")]
 public class AuthController : ControllerBase
 {
-    private readonly RegisterUserUseCase _registerUserUseCase;
-    private readonly LoginUseCase        _loginUseCase;
+    private readonly RegisterUserCommand _registerUserCommand;
+    private readonly LoginCommand        _loginCommand;
 
-    public AuthController(RegisterUserUseCase registerUseCase, LoginUseCase loginUseCase)
+    public AuthController(RegisterUserCommand registerCommand, LoginCommand loginCommand)
     {
-        _registerUserUseCase = registerUseCase;
-        _loginUseCase        = loginUseCase;
+        _registerUserCommand = registerCommand;
+        _loginCommand        = loginCommand;
     }
 
     [HttpPost("register")]
@@ -26,7 +26,7 @@ public class AuthController : ControllerBase
     {
         try
         {
-            var userId = await _registerUserUseCase.ExecuteAsync(dto, ct);
+            var userId = await _registerUserCommand.ExecuteAsync(dto, ct);
             
             return StatusCode(StatusCodes.Status201Created, new { Id = userId, Message = "Usuario registrado." });
         }
@@ -48,7 +48,7 @@ public class AuthController : ControllerBase
     {
         try
         {
-            var response = await _loginUseCase.ExecuteAsync(dto, ct);
+            var response = await _loginCommand.ExecuteAsync(dto, ct);
             return Ok(response);
         }
         catch (UnauthorizedDomainException ex)

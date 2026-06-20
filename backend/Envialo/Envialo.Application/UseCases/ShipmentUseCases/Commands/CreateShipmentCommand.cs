@@ -5,12 +5,12 @@ using Envialo.Domain.Ports.IRepositories;
 
 namespace Envialo.Application.UseCases.ShipmentUseCases.Commands;
 
-public sealed class CreateShipmentUseCase
+public sealed class CreateShipmentCommand
 {
     private readonly IShipmentRepository _shipments;
     private readonly IUnitOfWork         _uow;
 
-    public CreateShipmentUseCase(IShipmentRepository shipments, IUnitOfWork uow)
+    public CreateShipmentCommand(IShipmentRepository shipments, IUnitOfWork uow)
     {
         _shipments = shipments;
         _uow       = uow;

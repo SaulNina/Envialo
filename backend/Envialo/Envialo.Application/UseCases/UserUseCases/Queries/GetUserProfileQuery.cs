@@ -4,11 +4,11 @@ using Envialo.Domain.Ports.IRepositories;
 
 namespace Envialo.Application.UseCases.UserUseCases.Queries;
 
-public sealed class GetUserProfileUseCase
+public sealed class GetUserProfileQuery
 {
     private readonly IUserRepository _users;
 
-    public GetUserProfileUseCase(IUserRepository users)
+    public GetUserProfileQuery(IUserRepository users)
     {
         _users = users;
     }

@@ -5,14 +5,14 @@ using Envialo.Domain.Ports.IRepositories;
 
 namespace Envialo.Application.UseCases.FareOfferUseCases.Commands;
 
-public sealed class AcceptFareOfferUseCase
+public sealed class AcceptFareOfferCommand
 {
     private readonly IFareOfferRepository _offers;
     private readonly IShipmentRepository  _shipments;
     private readonly ITripRepository _trips;
     private readonly IUnitOfWork          _uow;
 
-    public AcceptFareOfferUseCase(
+    public AcceptFareOfferCommand(
         IFareOfferRepository offers,
         IShipmentRepository  shipments,
         ITripRepository  trips,

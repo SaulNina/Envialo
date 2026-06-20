@@ -4,12 +4,12 @@ using Envialo.Domain.Ports.IRepositories;
 
 namespace Envialo.Application.UseCases.TripUseCases.Commands;
 
-public sealed class CompleteTripUseCase
+public sealed class CompleteTripCommand
 {
     private readonly ITripRepository _trips;
     private readonly IUnitOfWork     _uow;
     
-    public CompleteTripUseCase(
+    public CompleteTripCommand(
         ITripRepository trips,
         IUnitOfWork     uow)
     {

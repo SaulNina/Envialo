@@ -14,18 +14,18 @@ namespace Envialo.API.Controllers;
 [Authorize]
 public class FareOffersController : ControllerBase
 {
-    private readonly CreateFareOfferUseCase     _createFareOfferUseCase;
-    private readonly AcceptFareOfferUseCase     _acceptFareOfferUseCase;
-    private readonly GetOffersByShipmentUseCase _getOffersByShipmentUseCase;
+    private readonly CreateFareOfferCommand     _createFareOfferCommand;
+    private readonly AcceptFareOfferCommand     _acceptFareOfferCommand;
+    private readonly GetOffersByShipmentQuery _getOffersByShipmentQuery;
 
     public FareOffersController(
-        CreateFareOfferUseCase     createFareOfferUseCase,
-        AcceptFareOfferUseCase     acceptFareOfferUseCase,
-        GetOffersByShipmentUseCase getOffersByShipmentUseCase)
+        CreateFareOfferCommand     createFareOfferCommand,
+        AcceptFareOfferCommand     acceptFareOfferCommand,
+        GetOffersByShipmentQuery getOffersByShipmentQuery)
     {
-        _createFareOfferUseCase     = createFareOfferUseCase;
-        _acceptFareOfferUseCase     = acceptFareOfferUseCase;
-        _getOffersByShipmentUseCase = getOffersByShipmentUseCase;
+        _createFareOfferCommand     = createFareOfferCommand;
+        _acceptFareOfferCommand     = acceptFareOfferCommand;
+        _getOffersByShipmentQuery = getOffersByShipmentQuery;
     }
 
     private Guid GetCurrentUserId()
@@ -49,7 +49,7 @@ public class FareOffersController : ControllerBase
         {
             var driverId = GetCurrentUserId();
             
-            await _createFareOfferUseCase.ExecuteAsync(dto.ShipmentId, driverId, dto.OfferedPrice, ct);
+            await _createFareOfferCommand.ExecuteAsync(dto.ShipmentId, driverId, dto.OfferedPrice, ct);
             
             return StatusCode(StatusCodes.Status201Created, new { Message = "Oferta enviada con éxito." });
         }
@@ -63,7 +63,7 @@ public class FareOffersController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<IActionResult> GetByShipment(Guid shipmentId, CancellationToken ct)
     {
-        var offers = await _getOffersByShipmentUseCase.ExecuteAsync(shipmentId, ct);
+        var offers = await _getOffersByShipmentQuery.ExecuteAsync(shipmentId, ct);
         return Ok(offers);
     }
 
@@ -78,7 +78,7 @@ public class FareOffersController : ControllerBase
         {
             var clientId = GetCurrentUserId();
             
-            await _acceptFareOfferUseCase.ExecuteAsync(id, clientId, ct);
+            await _acceptFareOfferCommand.ExecuteAsync(id, clientId, ct);
             
             return Ok(new { Message = "Oferta aceptada. El viaje ha sido creado." });
         }

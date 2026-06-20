@@ -4,11 +4,11 @@ using Envialo.Domain.Ports.IRepositories;
 
 namespace Envialo.Application.UseCases.RatingUseCases.Queries;
 
-public sealed class GetUserRatingsUseCase
+public sealed class GetUserRatingsQuery
 {
     private readonly IRatingRepository _ratings;
 
-    public GetUserRatingsUseCase(IRatingRepository ratings)
+    public GetUserRatingsQuery(IRatingRepository ratings)
     {
         _ratings = ratings;
     }

@@ -4,11 +4,11 @@ using Microsoft.AspNetCore.Http;
 
 namespace Envialo.Application.UseCases.UploadUseCases.Commands;
 
-public sealed class UploadImageUseCase
+public sealed class UploadImageCommand
 {
     private readonly IStorageService _storage;
 
-    public UploadImageUseCase(IStorageService storage)
+    public UploadImageCommand(IStorageService storage)
     {
         _storage = storage;
     }

@@ -14,18 +14,18 @@ namespace Envialo.API.Controllers;
 [Authorize] 
 public class ShipmentsController : ControllerBase
 {
-    private readonly CreateShipmentUseCase      _createShipmentUseCase;
-    private readonly GetPendingShipmentsUseCase _getPendingShipmentsUseCase;
-    private readonly GetShipmentByIdUseCase     _getShipmentByIdUseCase;
+    private readonly CreateShipmentCommand      _createShipmentCommand;
+    private readonly GetPendingShipmentsQuery _getPendingShipmentsQuery;
+    private readonly GetShipmentByIdQuery     _getShipmentByIdQuery;
 
     public ShipmentsController(
-        CreateShipmentUseCase      createShipmentUseCase,
-        GetPendingShipmentsUseCase getPendingShipmentsUseCase,
-        GetShipmentByIdUseCase     getShipmentByIdUseCase)
+        CreateShipmentCommand      createShipmentCommand,
+        GetPendingShipmentsQuery getPendingShipmentsQuery,
+        GetShipmentByIdQuery     getShipmentByIdQuery)
     {
-        _createShipmentUseCase      = createShipmentUseCase;
-        _getPendingShipmentsUseCase = getPendingShipmentsUseCase;
-        _getShipmentByIdUseCase     = getShipmentByIdUseCase;
+        _createShipmentCommand      = createShipmentCommand;
+        _getPendingShipmentsQuery = getPendingShipmentsQuery;
+        _getShipmentByIdQuery     = getShipmentByIdQuery;
     }
 
     
@@ -52,7 +52,7 @@ public class ShipmentsController : ControllerBase
         try
         {
             var clientId = GetCurrentUserId();
-            var response = await _createShipmentUseCase.ExecuteAsync(dto, clientId, ct);
+            var response = await _createShipmentCommand.ExecuteAsync(dto, clientId, ct);
             
             return StatusCode(StatusCodes.Status201Created, response);
         }
@@ -67,7 +67,7 @@ public class ShipmentsController : ControllerBase
     [ProducesResponseType(typeof(IReadOnlyList<ShipmentResponseDto>), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetPending(CancellationToken ct)
     {
-        var list = await _getPendingShipmentsUseCase.ExecuteAsync(ct);
+        var list = await _getPendingShipmentsQuery.ExecuteAsync(ct);
         return Ok(list);
     }
 
@@ -78,7 +78,7 @@ public class ShipmentsController : ControllerBase
     {
         try
         {
-            var shipment = await _getShipmentByIdUseCase.ExecuteAsync(id, ct);
+            var shipment = await _getShipmentByIdQuery.ExecuteAsync(id, ct);
             return Ok(shipment);
         }
         catch (ShipmentNotFoundException ex)

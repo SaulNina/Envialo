@@ -7,14 +7,14 @@ using Envialo.Domain.Constants;
 
 namespace Envialo.Application.UseCases.UserUseCases.Commands;
 
-public sealed class LoginUseCase
+public sealed class LoginCommand
 {
     private readonly IUserRepository        _users;
     private readonly IPasswordHasherService _hasher;
     private readonly IJwtTokenService       _jwt;
     private readonly IUnitOfWork            _uow;
 
-    public LoginUseCase(
+    public LoginCommand(
         IUserRepository        users,
         IPasswordHasherService hasher,
         IJwtTokenService       jwt,

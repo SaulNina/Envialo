@@ -4,11 +4,11 @@ using Envialo.Domain.Ports.IRepositories;
 
 namespace Envialo.Application.UseCases.ShipmentUseCases.Queries;
 
-public sealed class GetShipmentByIdUseCase
+public sealed class GetShipmentByIdQuery
 {
     private readonly IShipmentRepository _shipments;
 
-    public GetShipmentByIdUseCase(IShipmentRepository shipments) => _shipments = shipments;
+    public GetShipmentByIdQuery(IShipmentRepository shipments) => _shipments = shipments;
 
     public async Task<ShipmentResponseDto> ExecuteAsync(Guid id, CancellationToken ct = default)
     {
