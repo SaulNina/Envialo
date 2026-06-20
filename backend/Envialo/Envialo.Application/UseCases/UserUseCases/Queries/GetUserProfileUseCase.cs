@@ -1,6 +1,6 @@
-using Envialo.Application.DTOs.Users;
-using Envialo.Application.Ports;
+using Envialo.Domain.DTOs.Users;
 using Envialo.Domain.Exceptions;
+using Envialo.Domain.Ports.IRepositories;
 
 namespace Envialo.Application.UseCases.UserUseCases.Queries;
 

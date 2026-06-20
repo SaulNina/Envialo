@@ -1,8 +1,7 @@
-using Envialo.Application.Abstractions;
-using Envialo.Application.Ports;
 using Envialo.Domain.Constants;
 using Envialo.Domain.Entities;
 using Envialo.Domain.Exceptions;
+using Envialo.Domain.Ports.IRepositories;
 
 namespace Envialo.Application.UseCases.TripUseCases.Commands;
 

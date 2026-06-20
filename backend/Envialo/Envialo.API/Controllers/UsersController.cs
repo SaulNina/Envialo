@@ -1,5 +1,5 @@
 using System.Security.Claims;
-using Envialo.Application.DTOs.Users;
+using Envialo.Domain.DTOs.Users;
 using Envialo.Application.UseCases.UserUseCases.Commands;
 using Envialo.Application.UseCases.UserUseCases.Queries;
 using Envialo.Domain.Exceptions;

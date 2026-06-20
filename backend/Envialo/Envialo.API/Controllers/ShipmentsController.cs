@@ -1,5 +1,5 @@
 using System.Security.Claims;
-using Envialo.Application.DTOs.Shipments;
+using Envialo.Domain.DTOs.Shipments;
 using Envialo.Application.UseCases.ShipmentUseCases.Commands;
 using Envialo.Application.UseCases.ShipmentUseCases.Queries;
 using Envialo.Domain.Constants;

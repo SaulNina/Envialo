@@ -1,6 +1,6 @@
-using Envialo.Application.Ports;
 using Envialo.Domain.Entities;
 using Envialo.Domain.Exceptions;
+using Envialo.Domain.Ports.IRepositories;
 
 namespace Envialo.Application.UseCases.TripUseCases.Queries;
 

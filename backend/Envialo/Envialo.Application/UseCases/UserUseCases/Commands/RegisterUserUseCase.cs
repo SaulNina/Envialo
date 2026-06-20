@@ -1,9 +1,9 @@
-using Envialo.Application.Abstractions;
-using Envialo.Application.DTOs.Auth;
-using Envialo.Application.Ports;
+using Envialo.Domain.DTOs.Auth;
+using Envialo.Domain.Ports.IRepositories;
 using Envialo.Domain.Entities;
 using Envialo.Domain.Exceptions;
 using Envialo.Domain.Constants;
+using Envialo.Domain.Ports.IServices;
 
 namespace Envialo.Application.UseCases.UserUseCases.Commands;
 

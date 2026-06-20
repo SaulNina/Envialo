@@ -1,4 +1,4 @@
-using Envialo.Application.DTOs.Auth;
+using Envialo.Domain.DTOs.Auth;
 using Envialo.Application.UseCases.UserUseCases.Commands;
 using Envialo.Domain.Exceptions;
 using Microsoft.AspNetCore.Mvc;

@@ -1,5 +1,5 @@
-using Envialo.Application.Ports;
 using Envialo.Domain.Entities;
+using Envialo.Domain.Ports.IRepositories;
 
 namespace Envialo.Application.UseCases.FareOfferUseCases.Queries;
 

@@ -1,5 +1,6 @@
-using Envialo.Application.DTOs.Ratings;
-using Envialo.Application.Ports;
+using Envialo.Domain.DTOs.Ratings;
+
+using Envialo.Domain.Ports.IRepositories;
 
 namespace Envialo.Application.UseCases.RatingUseCases.Queries;
 

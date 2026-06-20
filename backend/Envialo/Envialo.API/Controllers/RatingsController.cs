@@ -1,5 +1,5 @@
 ﻿using System.Security.Claims;
-using Envialo.Application.DTOs.Ratings;
+using Envialo.Domain.DTOs.Ratings;
 using Envialo.Application.UseCases.RatingUseCases.Commands;
 using Envialo.Application.UseCases.RatingUseCases.Queries;
 using Envialo.Domain.Exceptions;

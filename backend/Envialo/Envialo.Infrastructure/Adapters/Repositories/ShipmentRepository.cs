@@ -1,0 +1,20 @@
+﻿using Envialo.Domain.Ports.IRepositories;
+using Envialo.Domain.Entities;
+using Microsoft.EntityFrameworkCore;
+
+namespace Envialo.Infrastructure.Adapters.Repositories;
+
+public sealed class ShipmentRepository : BaseRepository<ShipmentRequest>, IShipmentRepository
+{
+    public ShipmentRepository(AppDbContext db) : base(db) { }
+
+    public async Task<IReadOnlyList<ShipmentRequest>> GetPendingAsync(CancellationToken ct = default)
+        => await Set.Where(s => s.Status == "OPEN")
+            .OrderByDescending(s => s.CreatedAt)
+            .ToListAsync(ct);
+
+    public async Task<IReadOnlyList<ShipmentRequest>> GetByClientIdAsync(Guid clientId, CancellationToken ct = default)
+        => await Set.Where(s => s.ClientId == clientId)
+            .OrderByDescending(s => s.CreatedAt)
+            .ToListAsync(ct);
+}

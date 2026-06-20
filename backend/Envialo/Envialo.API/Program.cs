@@ -1,9 +1,9 @@
 using System.Text;
-using Envialo.Application.Abstractions;
-using Envialo.Application.Ports;
-using Envialo.Infrastructure.Persistence;
-using Envialo.Infrastructure.Persistence.Repositories;
-using Envialo.Infrastructure.Service;
+using Envialo.Domain.Ports.IRepositories;
+using Envialo.Domain.Ports.IServices;
+using Envialo.Infrastructure;
+using Envialo.Infrastructure.Adapters.Repositories;
+using Envialo.Infrastructure.Adapters.Service;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -48,7 +48,7 @@ builder.Services.AddScoped<Envialo.Application.UseCases.UserUseCases.Queries.Get
 builder.Services.AddScoped<Envialo.Application.UseCases.UserUseCases.Commands.UpdateUserProfileUseCase>();
 
 builder.Services.AddScoped<Envialo.Application.UseCases.UploadUseCases.Commands.UploadImageUseCase>();
-builder.Services.AddHttpClient<Envialo.Application.Ports.IStorageService, Envialo.Infrastructure.Service.SupabaseStorageService>();
+builder.Services.AddHttpClient<Envialo.Domain.Ports.IServices.IStorageService, Envialo.Infrastructure.Adapters.Service.SupabaseStorageService>();
 // (Agrega aquí el resto de tus UseCases conforme vayas creando tus controladores)
 
 // 4. Configurar Autenticación JWT

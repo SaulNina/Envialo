@@ -1,7 +1,6 @@
-using Envialo.Application.Abstractions;
-using Envialo.Application.Ports;
 using Envialo.Domain.Exceptions;
 using Envialo.Domain.Constants;
+using Envialo.Domain.Ports.IRepositories;
 
 namespace Envialo.Application.UseCases.ShipmentUseCases.Commands;
 

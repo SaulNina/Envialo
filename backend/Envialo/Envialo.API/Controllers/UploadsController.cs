@@ -20,7 +20,7 @@ public class UploadsController : ControllerBase
     [HttpPost("image")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> UploadImage([FromForm] Envialo.Application.DTOs.Uploads.UploadImageDto dto, CancellationToken ct)
+    public async Task<IActionResult> UploadImage([FromForm] Envialo.Domain.DTOs.Uploads.UploadImageDto dto, CancellationToken ct)
     {
         try
         {

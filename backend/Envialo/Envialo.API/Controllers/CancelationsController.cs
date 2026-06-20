@@ -1,5 +1,5 @@
 using System.Security.Claims;
-using Envialo.Application.DTOs.Cancelations;
+using Envialo.Domain.DTOs.Cancelations;
 using Envialo.Application.UseCases.ShipmentUseCases.Commands; 
 using Envialo.Application.UseCases.TripUseCases.Commands;     
 using Envialo.Domain.Exceptions;
