@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Envialo.Infrastructure.Adapters.Repositories;
 
-// Adapter del hexágono: implementa el puerto IUserRepository
 public sealed class UserRepository : BaseRepository<User>, IUserRepository
 {
     public UserRepository(AppDbContext db) : base(db) { }
