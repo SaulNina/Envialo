@@ -22,11 +22,13 @@ public class ShipmentsController : ControllerBase
     public ShipmentsController(
         CreateShipmentCommand      createShipmentCommand,
         GetPendingShipmentsQuery getPendingShipmentsQuery,
-        GetShipmentByIdQuery     getShipmentByIdQuery)
+        GetShipmentByIdQuery     getShipmentByIdQuery,
+        GetClientShipmentsQuery  getClientShipmentsQuery)
     {
         _createShipmentCommand      = createShipmentCommand;
         _getPendingShipmentsQuery = getPendingShipmentsQuery;
         _getShipmentByIdQuery     = getShipmentByIdQuery;
+        _getClientShipmentsQuery    = getClientShipmentsQuery;
     }
 
     

@@ -14,17 +14,15 @@ public sealed class GetClientShipmentsQuery
 
     public async Task<IReadOnlyList<ShipmentResponseDto>> ExecuteAsync(Guid clientId, CancellationToken ct)
     {
-        // Usamos el método que ya tienes definido en tu IShipmentRepository
         var shipments = await _shipmentRepository.GetByClientIdAsync(clientId, ct);
 
-        // Mapeamos de Entidad a DTO para no exponer la base de datos
         return shipments.Select(s => new ShipmentResponseDto(
             s.Id,
             s.OriginAddress,
             s.DestinationAddress,
             s.CargoDescription,
             s.WeightKg,
-            s.SuggestedPrice ?? 0, // Mapeamos SuggestedPrice a SuggestedFare del DTO
+            s.SuggestedPrice ?? 0, 
             s.Status,
             s.CreatedAt
         )).ToList();
