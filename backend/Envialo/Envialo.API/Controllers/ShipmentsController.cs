@@ -17,6 +17,7 @@ public class ShipmentsController : ControllerBase
     private readonly CreateShipmentCommand      _createShipmentCommand;
     private readonly GetPendingShipmentsQuery _getPendingShipmentsQuery;
     private readonly GetShipmentByIdQuery     _getShipmentByIdQuery;
+    private readonly GetClientShipmentsQuery  _getClientShipmentsQuery;
 
     public ShipmentsController(
         CreateShipmentCommand      createShipmentCommand,
@@ -55,6 +56,23 @@ public class ShipmentsController : ControllerBase
             var response = await _createShipmentCommand.ExecuteAsync(dto, clientId, ct);
             
             return StatusCode(StatusCodes.Status201Created, response);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new { error = ex.Message });
+        }
+    }
+    
+    [HttpGet("client")]
+    [Authorize(Roles = UserRoles.Client)] 
+    [ProducesResponseType(typeof(IReadOnlyList<ShipmentResponseDto>), StatusCodes.Status200OK)]
+    public async Task<IActionResult> GetClientShipments(CancellationToken ct)
+    {
+        try
+        {
+            var clientId = GetCurrentUserId();
+            var list = await _getClientShipmentsQuery.ExecuteAsync(clientId, ct);
+            return Ok(list);
         }
         catch (Exception ex)
         {
