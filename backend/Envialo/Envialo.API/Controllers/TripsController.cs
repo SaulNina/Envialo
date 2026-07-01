@@ -2,6 +2,7 @@ using System.Security.Claims;
 using Envialo.Application.UseCases.TripUseCases.Commands;
 using Envialo.Application.UseCases.TripUseCases.Queries;
 using Envialo.Domain.Constants;
+using Envialo.Domain.DTOs.Trips;
 using Envialo.Domain.Exceptions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -16,15 +17,18 @@ public class TripsController : ControllerBase
     private readonly StartTripCommand    _startTripCommand;
     private readonly CompleteTripCommand _completeTripCommand;
     private readonly GetTripByIdQuery  _getTripByIdQuery;
+    private readonly GetDriverTripsQuery _getDriverTripsQuery;
 
     public TripsController(
         StartTripCommand    startTripCommand,
         CompleteTripCommand completeTripCommand,
-        GetTripByIdQuery  getTripByIdQuery)
+        GetTripByIdQuery  getTripByIdQuery,
+        GetDriverTripsQuery getDriverTripsQuery)
     {
         _startTripCommand    = startTripCommand;
         _completeTripCommand = completeTripCommand;
         _getTripByIdQuery  = getTripByIdQuery;
+        _getDriverTripsQuery = getDriverTripsQuery;
     }
 
     private Guid GetCurrentUserId()
@@ -36,6 +40,23 @@ public class TripsController : ControllerBase
             throw new UnauthorizedAccessException("Token inválido.");
 
         return Guid.Parse(subClaim);
+    }
+    
+    [HttpGet("driver")]
+    [Authorize(Roles = UserRoles.Driver)]
+    [ProducesResponseType(typeof(IReadOnlyList<TripResponseDto>), StatusCodes.Status200OK)]
+    public async Task<IActionResult> GetDriverTrips(CancellationToken ct)
+    {
+        try
+        {
+            var driverId = GetCurrentUserId();
+            var list = await _getDriverTripsQuery.ExecuteAsync(driverId, ct);
+            return Ok(list);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new { error = ex.Message });
+        }
     }
 
     [HttpGet("{id:guid}")]

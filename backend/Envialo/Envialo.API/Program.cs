@@ -1,5 +1,6 @@
 using System.Text;
 using Envialo.Application.UseCases.ShipmentUseCases.Queries;
+using Envialo.Application.UseCases.TripUseCases.Queries;
 using Envialo.Domain.Ports.IRepositories;
 using Envialo.Domain.Ports.IServices;
 using Envialo.Infrastructure;
@@ -51,6 +52,7 @@ builder.Services.AddScoped<Envialo.Application.UseCases.UserUseCases.Commands.Up
 builder.Services.AddScoped<Envialo.Application.UseCases.UploadUseCases.Commands.UploadImageCommand>();
 builder.Services.AddScoped<GetClientShipmentsQuery>();
 builder.Services.AddHttpClient<Envialo.Domain.Ports.IServices.IStorageService, Envialo.Infrastructure.Adapters.Service.SupabaseStorageService>();
+builder.Services.AddScoped<GetDriverTripsQuery>();
 // (Agrega aquí el resto de tus UseCases conforme vayas creando tus controladores)
 
 // 4. Configurar Autenticación JWT

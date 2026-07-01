@@ -6,4 +6,5 @@ namespace Envialo.Domain.Ports.IRepositories;
 public interface ITripRepository : IRepository<Trip>
 {
     Task<Trip?> GetByShipmentIdAsync(Guid shipmentId, CancellationToken ct = default);
+    Task<IReadOnlyList<Trip>> GetByDriverIdAsync(Guid driverId, CancellationToken ct = default);
 }
