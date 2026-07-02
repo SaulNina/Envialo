@@ -63,8 +63,16 @@ public class FareOffersController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<IActionResult> GetByShipment(Guid shipmentId, CancellationToken ct)
     {
-        var offers = await _getOffersByShipmentQuery.ExecuteAsync(shipmentId, ct);
-        return Ok(offers);
+        try 
+        {
+            var offers = await _getOffersByShipmentQuery.ExecuteAsync(shipmentId, ct);
+            return Ok(offers);
+        }
+        catch (Exception ex)
+        {
+            // Ahora sí devolvemos un JSON que Flutter entiende: {"error": "..."}
+            return BadRequest(new { error = ex.Message });
+        }
     }
 
     [HttpPut("{id:guid}/accept")]
